@@ -7,12 +7,16 @@
 ## Third party docs
 C# - https://learn.microsoft.com/en-us/dotnet/csharp/
 
-Veldrid - https://veldrid.dev/articles/intro.html
+Veldrid - https://veldrid.dev/
+- GraphicsDevice - https://veldrid.dev/api/Veldrid.GraphicsDevice.html
+- GraphicsDeviceOptions - https://veldrid.dev/api/Veldrid.GraphicsDeviceOptions.html
 
 ## TODO List
 - ~~Create a native application window.~~
 - Initialize the graphics device.
     - Create the object that represents the connection to the GPU. (GraphicsDevice in Veldrid)
+    - Responsible for: GPU context, Resource creation (buffers, textures, pipelines), command submission,
+        synchronization, and the swapchain.
 - Create and manage the swapchain.
 - Clear the screen every frame.
 - Render a single text triangle.
