@@ -13,12 +13,12 @@ Veldrid - https://veldrid.dev/
 
 ## TODO List
 - ~~Create a native application window.~~
-- Initialize the graphics device.
-    - Create the object that represents the connection to the GPU. (GraphicsDevice in Veldrid)
-    - Responsible for: GPU context, Resource creation (buffers, textures, pipelines), command submission,
-        synchronization, and the swapchain.
-- Create and manage the swapchain.
-- Clear the screen every frame.
+- ~~Initialize the graphics device.~~
+    - ~~Create the object that represents the connection to the GPU. (GraphicsDevice in Veldrid)~~
+    - ~~Responsible for: GPU context, Resource creation (buffers, textures, pipelines), command submission,
+        synchronization, and the swapchain.~~
+- ~~Create and manage the swapchain.~~
+- ~~Clear the screen every frame.~~
 - Render a single text triangle.
 - Implement a camera system.
 - Add a depth buffer to the render pipeline.

@@ -39,13 +39,38 @@ namespace Host
                     GraphicsBackend.Metal
                 );
 
+            // Command list
+            CommandList commandList = graphicsDevice.ResourceFactory.CreateCommandList();
+
             // Basic event loop.
             while (window.Exists)
             {
+                // Process events
                 window.PumpEvents();
+
+                // Begin recording GPU commands.
+                commandList.Begin();
+
+                // Set the framebuffer
+                commandList.SetFramebuffer(graphicsDevice.SwapchainFramebuffer);
+
+                // Clear the framebuffer
+                commandList.ClearColorTarget(0, RgbaFloat.CornflowerBlue);
+
+                // End recording
+                commandList.End();
+
+                // Submit the command list
+                graphicsDevice.SubmitCommands(commandList);
+
+                // Present the frame
+                graphicsDevice.SwapBuffers();
+
                 Thread.Sleep(16);
             }
 
+            // Clean up
+            commandList.Dispose();
             graphicsDevice.Dispose();
         }
     }
