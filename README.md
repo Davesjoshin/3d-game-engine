@@ -10,8 +10,9 @@ C# - https://learn.microsoft.com/en-us/dotnet/csharp/
 Veldrid - https://veldrid.dev/articles/intro.html
 
 ## TODO List
-- Create a native application window.
+- ~~Create a native application window.~~
 - Initialize the graphics device.
+    - Create the object that represents the connection to the GPU. (GraphicsDevice in Veldrid)
 - Create and manage the swapchain.
 - Clear the screen every frame.
 - Render a single text triangle.
@@ -135,6 +136,10 @@ Veldrid - https://veldrid.dev/articles/intro.html
 **Depth Buffer** - (Also known as a Z-buffer) is a dedicated memory buffer
 that stores the depth information (distance from camera) for each pixel in
 an image.
+
+**Render Graph** - (Also known as a frame graph) is a high-level, declarative
+data structure used to manage the rendering pipeline by representing rendering
+operations as a directed acyclic graph.
 
 **Swapchain** - A Queue of image buffers (front & back buffers) used in
 graphics programming to render frames for displaying on the screen.
