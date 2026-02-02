@@ -1,5 +1,10 @@
 # 3DGE - 3d Game Engine
 
+## Build info
+.Net v8 SDK & Runtime
+```dotnet run --project src/Host```
+
+## Third party docs
 C# - https://learn.microsoft.com/en-us/dotnet/csharp/
 
 Veldrid - https://veldrid.dev/articles/intro.html
@@ -8,18 +13,28 @@ Veldrid - https://veldrid.dev/articles/intro.html
 - Create a native application window.
 - Initialize the graphics device.
 - Create and manage the swapchain.
-- clear screen
-- triangle
-- camera
-- depth buffer
-- mesh + transform
-- ECS
-- Render graph
-- Asset loading
-- lighting
-- materials
-- debug
-
+- Clear the screen every frame.
+- Render a single text triangle.
+- Implement a camera system.
+- Add a depth buffer to the render pipeline.
+- Render a mesh with a transform.
+- Support basic vertex and index buffers.
+- Introduce an ECS (Entity Component System).
+- Separate update and render systems.
+- Define a basic render graph.
+- Support multiple render passes.
+- Load shaders from disk.
+- Load mesh data from assets.
+- Load textures from assets.
+- Add an asset lifetime manager.
+- Implement basic lighting.
+- Add material definitions.
+- Support per-object materials.
+- Enable basic shading models.
+- Add debug logging.
+- Render debug geometry.
+- Display frame timing stats.
+- Enable runtime validation layers.
 
 ## Directory Trees
 
@@ -115,7 +130,11 @@ Veldrid - https://veldrid.dev/articles/intro.html
 └─ SceneEditor
 
 
-### Terminology
+## Terminology
+
+**Depth Buffer** - (Also known as a Z-buffer) is a dedicated memory buffer
+that stores the depth information (distance from camera) for each pixel in
+an image.
 
 **Swapchain** - A Queue of image buffers (front & back buffers) used in
 graphics programming to render frames for displaying on the screen.
