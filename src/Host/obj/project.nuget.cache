@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "aQHSrhZtoWg=",
+  "dgSpecHash": "89a4skz1bYw=",
   "success": true,
   "projectFilePath": "/Users/davesjoshin/Projects/repos/3d-game-engine/src/Host/Host.csproj",
   "expectedPackageFiles": [
@@ -55,6 +55,7 @@
     "/Users/davesjoshin/.nuget/packages/veldrid.metalbindings/4.9.0/veldrid.metalbindings.4.9.0.nupkg.sha512",
     "/Users/davesjoshin/.nuget/packages/veldrid.openglbindings/4.9.0/veldrid.openglbindings.4.9.0.nupkg.sha512",
     "/Users/davesjoshin/.nuget/packages/veldrid.sdl2/4.9.0/veldrid.sdl2.4.9.0.nupkg.sha512",
+    "/Users/davesjoshin/.nuget/packages/veldrid.spirv/1.0.15/veldrid.spirv.1.0.15.nupkg.sha512",
     "/Users/davesjoshin/.nuget/packages/veldrid.startuputilities/4.9.0/veldrid.startuputilities.4.9.0.nupkg.sha512",
     "/Users/davesjoshin/.nuget/packages/vk/1.0.25/vk.1.0.25.nupkg.sha512",
     "/Users/davesjoshin/.nuget/packages/vortice.d3dcompiler/2.3.0/vortice.d3dcompiler.2.3.0.nupkg.sha512",

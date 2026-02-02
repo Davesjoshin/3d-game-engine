@@ -19,7 +19,10 @@ Veldrid - https://veldrid.dev/
         synchronization, and the swapchain.~~
 - ~~Create and manage the swapchain.~~
 - ~~Clear the screen every frame.~~
-- Render a single text triangle.
+- ~~Render a single text triangle.~~
+- Handle window resize
+- Introduce a depth buffer.
+- Move triangle positions out of clip space (into world space).
 - Implement a camera system.
 - Add a depth buffer to the render pipeline.
 - Render a mesh with a transform.
@@ -145,5 +148,13 @@ an image.
 data structure used to manage the rendering pipeline by representing rendering
 operations as a directed acyclic graph.
 
+**Shader** - Small programs that run on GPUs to calculate rendering effects, transforming
+3D models into 2D pixels on screen. They define how surfaces interact with light,
+colors, and textures, enabling real-time visual effects like reflections, shadows, and
+post processing, rather than relying on the CPU.
+
 **Swapchain** - A Queue of image buffers (front & back buffers) used in
 graphics programming to render frames for displaying on the screen.
+
+**Vertex** - (plural: vertices) is the fundamental data structure used to
+define the building blocks of 3d models and geometry in a virutal environment.

@@ -51,6 +51,10 @@
               "target": "Package",
               "version": "[4.9.0, )"
             },
+            "Veldrid.SPIRV": {
+              "target": "Package",
+              "version": "[1.0.15, )"
+            },
             "Veldrid.StartupUtilities": {
               "target": "Package",
               "version": "[4.9.0, )"

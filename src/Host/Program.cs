@@ -1,14 +1,27 @@
 using System;
+using System.Numerics;
 using System.Threading;
 using Veldrid;
 using Veldrid.StartupUtilities;
 using Veldrid.Sdl2;
+using Veldrid.SPIRV;
+using System.Reflection.Metadata.Ecma335;
 
 
 namespace Host
 {
     internal static class Program
     {
+        struct Vertex
+        {
+            public Vector2 Position;
+
+            public Vertex(Vector2 position)
+            {
+                Position = position;
+            }
+        }
+
         public static void Main(string[] args)
         {
             // Simple native window.
@@ -39,10 +52,70 @@ namespace Host
                     GraphicsBackend.Metal
                 );
 
+            // Resource factory
+            ResourceFactory factory = graphicsDevice.ResourceFactory;
+
+            Vertex[] vertices =
+            {
+                new Vertex(new Vector2(0.0f, 0.5f)),
+                new Vertex(new Vector2(0.5f, -0.5f)),
+                new Vertex(new Vector2(-0.5f, -0.5f)),
+            };
+
+            // Vertex buffer
+            // This is a buffer that contains the vertex data
+            DeviceBuffer vertexBuffer = factory.CreateBuffer(
+                new BufferDescription(
+                    (uint)(vertices.Length * sizeof(float) * 2),
+                    BufferUsage.VertexBuffer
+                )
+            );
+
+            // Update the buffer, this is where the vertex data is stored
+            graphicsDevice.UpdateBuffer(
+                vertexBuffer,
+                0,
+                vertices
+            );
+        
+            // Shaders
+            Shader[] shaders = factory.CreateFromSpirv(
+                new ShaderDescription(
+                    ShaderStages.Vertex,
+                    File.ReadAllBytes("Shaders/triangle.vert"),
+                    "main"
+                ),    
+                new ShaderDescription(
+                    ShaderStages.Fragment,
+                    File.ReadAllBytes("Shaders/triangle.frag"),
+                    "main"      
+                )
+            );
+
+            GraphicsPipelineDescription pipelineDesc = new GraphicsPipelineDescription
+            {
+                BlendState = BlendStateDescription.SingleOverrideBlend,
+                DepthStencilState = DepthStencilStateDescription.Disabled,
+                RasterizerState = RasterizerStateDescription.Default,
+                PrimitiveTopology = PrimitiveTopology.TriangleList,
+                ResourceLayouts = Array.Empty<ResourceLayout>(),
+                ShaderSet = new ShaderSetDescription(
+                    new[]
+                    {
+                        new VertexLayoutDescription(
+                            new VertexElementDescription("Position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float2)
+                        )  
+                    },
+                    shaders),
+                Outputs = graphicsDevice.SwapchainFramebuffer.OutputDescription
+            };
+
+            Pipeline pipeline = factory.CreateGraphicsPipeline(pipelineDesc);
+
             // Command list
             CommandList commandList = graphicsDevice.ResourceFactory.CreateCommandList();
 
-            // Basic event loop.
+            // Basic Render Loop
             while (window.Exists)
             {
                 // Process events
@@ -50,21 +123,17 @@ namespace Host
 
                 // Begin recording GPU commands.
                 commandList.Begin();
+                commandList.SetFramebuffer(graphicsDevice.SwapchainFramebuffer); // Set the framebuffer
+                commandList.ClearColorTarget(0, RgbaFloat.CornflowerBlue); // Clear the framebuffer
 
-                // Set the framebuffer
-                commandList.SetFramebuffer(graphicsDevice.SwapchainFramebuffer);
+                commandList.SetPipeline(pipeline);
+                commandList.SetVertexBuffer(0, vertexBuffer);
+                commandList.Draw(3);
 
-                // Clear the framebuffer
-                commandList.ClearColorTarget(0, RgbaFloat.CornflowerBlue);
+                commandList.End(); // End recording
 
-                // End recording
-                commandList.End();
-
-                // Submit the command list
-                graphicsDevice.SubmitCommands(commandList);
-
-                // Present the frame
-                graphicsDevice.SwapBuffers();
+                graphicsDevice.SubmitCommands(commandList); // Submit the command list
+                graphicsDevice.SwapBuffers(); // Present the frame
 
                 Thread.Sleep(16);
             }

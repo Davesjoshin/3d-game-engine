@@ -35,3 +35,8 @@
 /Users/davesjoshin/Projects/repos/3d-game-engine/src/Host/obj/Debug/net8.0/Host.pdb
 /Users/davesjoshin/Projects/repos/3d-game-engine/src/Host/obj/Debug/net8.0/Host.genruntimeconfig.cache
 /Users/davesjoshin/Projects/repos/3d-game-engine/src/Host/obj/Debug/net8.0/ref/Host.dll
+/Users/davesjoshin/Projects/repos/3d-game-engine/src/Host/bin/Debug/net8.0/Veldrid.SPIRV.dll
+/Users/davesjoshin/Projects/repos/3d-game-engine/src/Host/bin/Debug/net8.0/runtimes/linux-x64/native/libveldrid-spirv.so
+/Users/davesjoshin/Projects/repos/3d-game-engine/src/Host/bin/Debug/net8.0/runtimes/osx/native/libveldrid-spirv.dylib
+/Users/davesjoshin/Projects/repos/3d-game-engine/src/Host/bin/Debug/net8.0/runtimes/win-x64/native/libveldrid-spirv.dll
+/Users/davesjoshin/Projects/repos/3d-game-engine/src/Host/bin/Debug/net8.0/runtimes/win-x86/native/libveldrid-spirv.dll
