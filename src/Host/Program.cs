@@ -40,7 +40,7 @@ namespace Host
             GraphicsDeviceOptions options = new GraphicsDeviceOptions
             {
                 Debug = true,
-                SwapchainDepthFormat = PixelFormat.R16_UNorm,
+                SwapchainDepthFormat = PixelFormat.D24_UNorm_S8_UInt,
                 SyncToVerticalBlank = true
             };
 
@@ -91,14 +91,34 @@ namespace Host
                 )
             );
 
+            // Depth Resources
+            Texture depthTexture = factory.CreateTexture(
+                TextureDescription.Texture2D(
+                    (uint)window.Width,
+                    (uint)window.Height,
+                    mipLevels: 1,
+                    arrayLayers: 1,
+                    PixelFormat.D24_UNorm_S8_UInt,
+                    TextureUsage.DepthStencil
+                )
+            );
+
+            // Framebuffer
+            Framebuffer framebuffer = factory.CreateFramebuffer(
+                new FramebufferDescription(
+                    depthTexture,
+                    graphicsDevice.SwapchainFramebuffer.ColorTargets[0].Target
+                )
+            );
+
             GraphicsPipelineDescription pipelineDesc = new GraphicsPipelineDescription
             {
-                BlendState = BlendStateDescription.SingleOverrideBlend,
-                DepthStencilState = DepthStencilStateDescription.Disabled,
-                RasterizerState = RasterizerStateDescription.Default,
-                PrimitiveTopology = PrimitiveTopology.TriangleList,
-                ResourceLayouts = Array.Empty<ResourceLayout>(),
-                ShaderSet = new ShaderSetDescription(
+                BlendState = BlendStateDescription.SingleOverrideBlend, // No blending
+                DepthStencilState = DepthStencilStateDescription.DepthOnlyLessEqual,
+                RasterizerState = RasterizerStateDescription.Default, // Default rasterizer
+                PrimitiveTopology = PrimitiveTopology.TriangleList, // Default primitive topology
+                ResourceLayouts = Array.Empty<ResourceLayout>(), // No resource layouts
+                ShaderSet = new ShaderSetDescription( 
                     new[]
                     {
                         new VertexLayoutDescription(
@@ -107,6 +127,7 @@ namespace Host
                     },
                     shaders),
                 Outputs = graphicsDevice.SwapchainFramebuffer.OutputDescription
+
             };
 
             Pipeline pipeline = factory.CreateGraphicsPipeline(pipelineDesc);
@@ -125,10 +146,37 @@ namespace Host
                 if (resized)
                 {
                     resized = false;
+
                     graphicsDevice.ResizeMainWindow(
                         (uint)window.Width,
                         (uint)window.Height
                     );
+
+                    depthTexture.Dispose();
+                    framebuffer.Dispose();
+
+                    depthTexture = factory.CreateTexture(
+                        TextureDescription.Texture2D(
+                            (uint)window.Width,
+                            (uint)window.Height,
+                            mipLevels: 1,
+                            arrayLayers: 1,
+                            PixelFormat.D24_UNorm_S8_UInt,
+                            TextureUsage.DepthStencil
+                        )
+                    );
+
+                    framebuffer = factory.CreateFramebuffer(
+                        new FramebufferDescription(
+                            depthTexture,
+                            graphicsDevice.SwapchainFramebuffer.ColorTargets[0].Target
+                        )
+                    );
+                    
+                    pipeline.Dispose();
+                    pipelineDesc.Outputs = graphicsDevice.SwapchainFramebuffer.OutputDescription;
+                    pipeline = factory.CreateGraphicsPipeline(pipelineDesc);
+
                 }
 
                 // Process events
@@ -148,8 +196,9 @@ namespace Host
 
                 // Begin recording GPU commands.
                 commandList.Begin();
-                commandList.SetFramebuffer(graphicsDevice.SwapchainFramebuffer); // Set the framebuffer
+                commandList.SetFramebuffer(graphicsDevice.SwapchainFramebuffer);
                 commandList.ClearColorTarget(0, RgbaFloat.CornflowerBlue); // Clear the framebuffer
+                commandList.ClearDepthStencil(1f);
 
                 commandList.SetPipeline(pipeline);
                 commandList.SetVertexBuffer(0, vertexBuffer);
@@ -165,6 +214,9 @@ namespace Host
 
             // Clean up
             commandList.Dispose();
+            framebuffer.Dispose();
+            pipeline.Dispose();
+            depthTexture.Dispose();
             graphicsDevice.Dispose();
         }
     }

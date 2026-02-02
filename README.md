@@ -23,8 +23,10 @@ F11 - Fullscreen toggle
 - ~~Create and manage the swapchain.~~
 - ~~Clear the screen every frame.~~
 - ~~Render a single text triangle.~~
-- Handle window resize
+- ~~Handle window resize~~
 - Introduce a depth buffer.
+    - Ownership: Host creates and resizes it, Engine will later consume it via render targets,
+    implement it in the Host for now.
 - Move triangle positions out of clip space (into world space).
 - Implement a camera system.
 - Add a depth buffer to the render pipeline.
@@ -49,27 +51,28 @@ F11 - Fullscreen toggle
 
 ## Directory Trees
 
-/src/Engine
-│
-├─ Engine.csproj
-│
-├─ Core
-│   ├─ EngineContext.cs
-│   ├─ EngineTime.cs
-│   └─ EngineConfig.cs
-│
-├─ Graphics
-│   ├─ Renderer.cs
-│   ├─ GraphicsDeviceManager.cs
-│   ├─ SwapchainContext.cs
-│   └─ RenderFrame.cs
-│
-├─ ECS
-│   ├─ World.cs
-│   ├─ Entity.cs
-│   ├─ Systems
-│   └─ Components
-│
+/src/Engine/
+/src/Engine/Engine.csproj
+
+/src/Engine/Core/
+/src/Engine/Core/EngineContext.cs
+/src/Engine/Core/EngineTime.cs
+/src/Engine/Core/EngineConfig.cs
+
+/src/Engine/Graphics/
+/src/Engine/Graphics/Renderer.cs
+/src/Engine/Graphics/GraphicsDeviceManager.cs
+/src/Engine/Graphics/SwapchainContext.cs
+/src/Engine/Graphics/RenderFrame.cs
+
+/src/Engine/ECS/
+/src/Engine/ECS/World.cs
+/src/Engine/ECS/Entity.cs
+/src/Engine/ECS/Systems
+/src/Engine/ECS/Components
+
+
+
 ├─ Assets
 │   ├─ AssetManager.cs
 │   ├─ AssetHandle.cs
@@ -134,11 +137,9 @@ F11 - Fullscreen toggle
     └─ test.scene
 
 /tools
-│
-├─ AssetCompiler
-│   └─ AssetCompiler.csproj
-│
-└─ SceneEditor
+/tools/AssetCompiler/
+/tools/AssetCompiler/AssetCompiler.csproj
+/tools/SceneEditor/
 
 
 ## Terminology
@@ -150,6 +151,10 @@ an image.
 **Render Graph** - (Also known as a frame graph) is a high-level, declarative
 data structure used to manage the rendering pipeline by representing rendering
 operations as a directed acyclic graph.
+
+**Render Pipeline** - (Also know as a graphics pipeline) is the sequential set
+of operations performed by the GPU to convert 3D scene data, such as models, texutures,
+lighting, and camera positions, into the 2D image displayed on the screen
 
 **Shader** - Small programs that run on GPUs to calculate rendering effects, transforming
 3D models into 2D pixels on screen. They define how surfaces interact with light,
