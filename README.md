@@ -11,6 +11,9 @@ Veldrid - https://veldrid.dev/
 - GraphicsDevice - https://veldrid.dev/api/Veldrid.GraphicsDevice.html
 - GraphicsDeviceOptions - https://veldrid.dev/api/Veldrid.GraphicsDeviceOptions.html
 
+## Controls
+F11 - Fullscreen toggle
+
 ## TODO List
 - ~~Create a native application window.~~
 - ~~Initialize the graphics device.~~

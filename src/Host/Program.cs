@@ -5,7 +5,6 @@ using Veldrid;
 using Veldrid.StartupUtilities;
 using Veldrid.Sdl2;
 using Veldrid.SPIRV;
-using System.Reflection.Metadata.Ecma335;
 
 
 namespace Host
@@ -115,11 +114,37 @@ namespace Host
             // Command list
             CommandList commandList = graphicsDevice.ResourceFactory.CreateCommandList();
 
+            // Window Resize
+            bool resized = false;
+            window.Resized += () => resized = true;
+
             // Basic Render Loop
             while (window.Exists)
             {
+                // Adjust for window resize
+                if (resized)
+                {
+                    resized = false;
+                    graphicsDevice.ResizeMainWindow(
+                        (uint)window.Width,
+                        (uint)window.Height
+                    );
+                }
+
                 // Process events
-                window.PumpEvents();
+                InputSnapshot input = window.PumpEvents();
+
+                // Toggle fullscreen
+                foreach (var keyEvent in input.KeyEvents)
+                {
+                    if (keyEvent.Down && keyEvent.Key == Key.F11)
+                    {
+                        window.WindowState =
+                            window.WindowState == WindowState.FullScreen
+                                ? WindowState.Normal
+                                : WindowState.FullScreen;
+                    }
+                }
 
                 // Begin recording GPU commands.
                 commandList.Begin();
